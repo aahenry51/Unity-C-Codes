@@ -1,0 +1,61 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using DG.Tweening;
+
+public class DotweenSolution1 : MonoBehaviour
+{
+
+    public GameObject Obj;
+
+    //This is the moving tween core variable that represents the tween enacted
+    DG.Tweening.Core.TweenerCore<Vector3, Vector3, DG.Tweening.Plugins.Options.VectorOptions> DotweenService;
+
+    public void Dotween_Move(Vector3 NewPosition, float Time)
+    {
+        //Initilise the tween.
+        DotweenService = Obj.transform.DOMove(NewPosition, Time);
+
+        //Set the ease in-which the object moves there. Set by Ease.
+        DotweenService.SetEase(Ease.InBounce);
+
+        //Delays the tween for 3 seconds
+        DotweenService.SetDelay(3);
+
+        //Runs when the tween starts
+        DotweenService.OnStart(() =>
+        {
+            //Place code to Excute when Tween Starts 
+        });
+
+        //Runs when the tween end
+        DotweenService.OnComplete(() => {
+                
+           //Place Code to Execute on After Completion.
+
+        });
+    }
+
+    public void Dotween_Move_Update()
+    {
+        if(DotweenService.IsActive()) //Tween Exist (After tween is done it is killed)
+        {
+            Debug.Log(DotweenService.IsPlaying()); //Returns if playing
+
+            //DotweenService.Pause(); //Pauses the tween
+
+            Debug.Log(DotweenService.ElapsedPercentage()); //Returns the percentage completed
+        }
+    }
+
+    void Start()
+    {
+        Dotween_Move(new Vector3(100,110,100),4);
+    }
+
+    void Update()
+    {
+        Dotween_Move_Update();
+    }
+
+}
